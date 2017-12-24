@@ -46,7 +46,7 @@ script:
   - ./get_code_cov
   - codecov
   # OCLint
-  - ./do_oclint
+  - ./do_oclint || true
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

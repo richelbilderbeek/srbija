@@ -9,4 +9,4 @@ develop|[![Build Status](https://travis-ci.org/richelbilderbeek/srbija.svg?branc
 
 ![srbija screenshot](srbija.png)
 
-`srbia` is geprogrammeerd door Mark Wiering.
+`srbia` is geprogrammeerd door Mark Wiering. Om de code op Travis CI te laten compilen, heeft Richel Bilderbeek wat kleine aanpassingen gedaan.
