@@ -1,2 +1,3 @@
 # srbija
-Een tekstgebaseerd vechtspel waarin jij Servië moet redden van de Kroatische heks Mirna Ković
+
+srbija is een tekstgebaseerd vechtspel waarin jij Servië moet redden van de Kroatische heks Mirna Ković, geprogrammeerd door Mark Wiering.
