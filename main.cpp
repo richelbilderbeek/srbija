@@ -592,9 +592,7 @@ string naamGenerator()
 		case 71: voor = "Звездана";	break;
 		case 72: voor = "Зорица";	break;
 		case 73: voor = "Желимир";	break;
-		
-		
-		default: exit(1);
+        default: assert(!"Should not get here");
 	}
 	
 	switch (achterGetal)
@@ -654,9 +652,7 @@ string naamGenerator()
 		case 52: achter = "Шешум"; break;
 		case 53: achter = "Зрнић"; break;
 		case 54: achter = "Младић"; break;
-		
-		
-		default: exit(1);
+        default: assert(!"Should not get here");
 	}
 	return voor + " " + achter;
 }
@@ -684,8 +680,8 @@ void afsluiter(int /* signum */)
 		case 9: cout << "\nDe duivel: Hè, hè, ik dacht dat jij nooit zou gaan!\n"; break;
 		case 10: cout << "\nDe duivel: Goedzo! Ga maar weg. Laat Mirna Ković haar werk doen!"
 		<< endl; break;
-		default: exit(1);
-	}
+        default: assert(!"Should not get here");
+    }
 	exit(0);
 	
 }
@@ -727,6 +723,15 @@ void keuzeSpeler(Persoon &teg, Persoon &speler)
 	
 }
 
+std::array<std::string, AANTAL_VIJANDEN> get_enemy_names() noexcept
+{
+  return {
+    "Jacob Rothshild", "André van Kemenade", "Arie Beemsterboer",
+    "Kasperus Smuider", "Frederick van den Berg", "Lihanna Ković",
+    "Kloon speler"
+  };
+}
+
 void speelMenu(Persoon &teg, Persoon &speler)
 {
     kint keuze; if (!speler.m_Valsspeelmode) { speler.m_Gezondheid = 100; }
@@ -734,32 +739,27 @@ void speelMenu(Persoon &teg, Persoon &speler)
 	cout << "\nChapeau, " << speler.toonNaam() << "! Jij bent nu in Zadar!\n\n"; sleep(1);
 	cout << "Om bij Mirna Ković te komen, moet jij eerst de mensen om haar heen " <<
 	"uitschakelen. Zij wordt namelijk beschermd door deze mensen hier:\n\n"; sleep(1);
-    cout << "\t1) Jacob Rothshild "; if (!teg.levend(0)) { cout<<"(DOOD)"; }
-	teg.gevangen(0)?cout<<"(GEVANGEN)":cout << ""; slaap;
-    cout << "\t2) André van Kemenade "; if (!teg.levend(1)) { cout<<"(DOOD)"; }
-	teg.gevangen(1)?cout<<"(GEVANGEN)":cout << ""; slaap;
-    cout << "\t3) Arie Beemsterboer "; if (!teg.levend(2)) { cout<<"(DOOD)"; }
-	teg.gevangen(2)?cout<<"(GEVANGEN)":cout << ""; slaap;
-    cout << "\t4) Kasperus Smuider "; if (!teg.levend(3)) { cout<<"(DOOD)"; }
-	teg.gevangen(3)?cout<<"(GEVANGEN)":cout << ""; slaap;
-    cout << "\t5) Frederick van den Berg "; if (!teg.levend(4)) { cout<<"(DOOD)"; }
-	teg.gevangen(4)?cout<<"(GEVANGEN)":cout << ""; slaap;
-    cout << "\t6) Lihanna Ković "; if (!teg.levend(5)) { cout<<"(DOOD)"; }
-	teg.gevangen(5)?cout<<"(GEVANGEN)":cout << ""; slaap;
-    cout << "\t7) Kloon speler "; if (!teg.levend(6)) { cout<<"(DOOD)"; }
-	teg.gevangen(6)?cout<<"(GEVANGEN)":cout << ""; slaap;
-	cout << "\t 999) Spel afsluiten\n";
-	cout << "\nMet wie wil jij vechten? Voer een getal in: "; cin >> keuze;
+    for (int i=0; i!=AANTAL_VIJANDEN; ++i) {
+      std::cout << "\t" << i << ") " << get_enemy_names()[i] << " ";
+      if (!teg.levend(i)) { std::cout<<"(DOOD)"; }
+      if (teg.gevangen(i)) { std::cout<<"(GEVANGEN)"; }
+      std::cout << std::flush;
+      slaap;
+      std::cout << '\n';
+    }
+    cout << "\t999) Spel afsluiten\n";
+    std::cout << '\n';
+    cout << "\nMet wie wil jij vechten? Voer een getal in: "; cin >> keuze;
 	while((cin.fail() || keuze > AANTAL_VIJANDEN || keuze < 1) && keuze != 1855 &&
 	keuze != 999) {INVOERFOUT(keuze);} switch (keuze)
 	{
-		case 1: teg.instellen("Jacob Rothshild",		0,100,20,5,0,70, 11, 1); break;
-		case 2: teg.instellen("André van Kemenade",		1,100,25,10,5,65 ,18, 1); break;
-		case 3: teg.instellen("Arie Beemsterboer",		2,100,30,15,10,60 ,17, 1); break;
-		case 4: teg.instellen("Kasperus Smuider",		3,100,35,20,15,80 ,16, 0); break;
-		case 5: teg.instellen("Frederick van den Berg",	4,100,40,25,20,75 ,15, 0); break;
-		case 6: teg.instellen("Lihanna Ković",			5,100,35,20,30,75 ,14, 0); break;
-		case 7: teg.instellen("Kloon speler",			6,100,30,20,20,100,17, 0); break;
+        case 1: teg.instellen(get_enemy_names()[keuze -1],0,100,20,5,0,70, 11, 1); break;
+        case 2: teg.instellen(get_enemy_names()[keuze -1],100,25,10,5,65 ,18, 1); break;
+        case 3: teg.instellen(get_enemy_names()[keuze -1],2,100,30,15,10,60 ,17, 1); break;
+        case 4: teg.instellen(get_enemy_names()[keuze -1],3,100,35,20,15,80 ,16, 0); break;
+        case 5: teg.instellen(get_enemy_names()[keuze -1],4,100,40,25,20,75 ,15, 0); break;
+        case 6: teg.instellen(get_enemy_names()[keuze -1],5,100,35,20,30,75 ,14, 0); break;
+        case 7: teg.instellen(get_enemy_names()[keuze -1],6,100,30,20,20,100,17, 0); break;
         case 999: afsluiter(0); break;
 		case 1855: speler.valsspeelMode(); speelMenu(teg, speler); break;
 		default: exit(1);
